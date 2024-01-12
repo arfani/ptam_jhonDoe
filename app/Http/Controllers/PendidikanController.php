@@ -13,9 +13,9 @@ class PendidikanController extends Controller
      */
     public function index()
     {
-        $users = Pendidikan::latest()->paginate(5);
+        $pendidikan = Pendidikan::latest()->paginate(5);
         $indexNumber = (request()->input('page', 1) - 1) * 5;
-        return view('pendidikan.index', compact('users', 'indexNumber'));
+        return view('pendidikan.index', compact('pendidikan', 'indexNumber'));
     }
 
     /**
@@ -29,7 +29,6 @@ class PendidikanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
     public function store(StorePendidikanRequest $request)
     {
         $validated = $request->validated();
@@ -63,7 +62,6 @@ class PendidikanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, Pendidikan $pendidikan)
     public function update(UpdatePendidikanRequest $request, Pendidikan $pendidikan)
     {
         $validated = $request->validated();
