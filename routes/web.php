@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PendidikanController;
 use App\Http\Controllers\ProfileController;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('pendidikan', PendidikanController::class);
     Route::resource('pegawai', PegawaiController::class);
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });
 
 require __DIR__.'/auth.php';

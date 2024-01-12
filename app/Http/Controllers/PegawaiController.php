@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePegawaiRequest;
 use App\Http\Requests\UpdatePegawaiRequest;
 use App\Models\Pegawai;
+use App\Models\PegawaiPendidikan;
+use App\Models\Pendidikan;
 
 class PegawaiController extends Controller
 {
@@ -15,6 +17,7 @@ class PegawaiController extends Controller
     {
         $pegawai = Pegawai::latest()->paginate(5);
         $indexNumber = (request()->input('page', 1) - 1) * 5;
+
         return view('pegawai.index', compact('pegawai', 'indexNumber'));
     }
 
@@ -23,7 +26,8 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('pegawai.form');
+        $pendidikan= Pendidikan::all();
+        return view('pegawai.form',compact('pendidikan'));
     }
 
     /**
@@ -43,6 +47,14 @@ class PegawaiController extends Controller
 
         $newData->save();
 
+        $pegawaiPendidikan = new PegawaiPendidikan();
+
+        foreach ($validated['pendidikan'] as $value) {
+            $pegawaiPendidikan->pegawai_id = $newData->id;
+            $pegawaiPendidikan->pendidikan_id = $value;
+            $pegawaiPendidikan->save();
+        }
+
         return redirect()->route('pegawai.index')
         ->with('success', 'Data Pegawai berhasil ditambahkan!');
     }
@@ -60,7 +72,9 @@ class PegawaiController extends Controller
      */
     public function edit(Pegawai $pegawai)
     {
-        return view('pegawai.form-edit',compact('pegawai'));
+        $pendidikan= Pendidikan::all();
+
+        return view('pegawai.form-edit',compact('pegawai', 'pendidikan'));
     }
 
     /**
@@ -77,6 +91,15 @@ class PegawaiController extends Controller
         $pegawai->is_active = $validated['is_active'];
         $pegawai->pajak = $validated['pajak'];
         $pegawai->save();
+
+        $pegawaiPendidikan = PegawaiPendidikan::where('pegawai_id', $pegawai->id)->get();
+        $pegawaiPendidikan->delete();
+
+        foreach ($validated['pendidikan'] as $value) {
+            $pegawaiPendidikan->pegawai_id = $pegawai->id;
+            $pegawaiPendidikan->pendidikan_id = $value;
+            $pegawaiPendidikan->save();
+        }
 
         return redirect()->route('pegawai.index')
         ->with('success', 'Data Pegawai berhasil diubah!');

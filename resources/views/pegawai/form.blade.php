@@ -63,6 +63,25 @@
                                 value="{{old('pajak', '')}}" required>
                         </div>
 
+
+                        <div class="flex flex-col mb-2 mt-4 [&_option]:text-black">
+                            <label for="pendidikan">Pilih Pendidikan</label>
+                            {{-- <input type="text" id="pendidikan" name="pendidikan[]" list="pendidikan"
+                                class="w-fit border-t-transparent border-l-transparent border-r-transparent focus:ring-0 border-b border-teal-600" " required multiple>
+
+                                <datalist id=" pendidikan">
+                            @foreach ($pendidikan as $item)
+                            <option value="{{$item->id}}">
+                            @endforeach
+                            </datalist> --}}
+                            <select id="pendidikan" name="pendidikan[]" multiple>
+                                @foreach ($pendidikan as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
                         <button type="submit" class="py-2 px-4 bg-teal-500 my-2 rounded">Simpan</button>
                     </form>
                 </div>

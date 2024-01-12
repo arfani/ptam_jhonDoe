@@ -28,6 +28,7 @@ class UpdatePegawaiRequest extends FormRequest
             'tgl_lahir' => ['required'],
             'is_active' => ['required'],
             'pajak' => ['required'],
+            'pendidikan' => ['required']
         ];
     }
 }

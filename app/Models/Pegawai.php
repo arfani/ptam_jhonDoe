@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Pegawai extends Model
 {
     use HasFactory, HasUuids;
+
+    /**
+     * The pendidikan that belong to the Pegawai
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function pendidikan()
+    {
+        return $this->belongsToMany(Pendidikan::class);
+    }
 }
